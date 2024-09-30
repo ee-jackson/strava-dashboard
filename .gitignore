@@ -1,7 +1,6 @@
 ## Project specific ignores:
 
-data/
-code/exploration/*html
+secrets.R
 
 
 ## R + RStudio ignores:
