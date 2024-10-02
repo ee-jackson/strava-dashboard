@@ -5,19 +5,13 @@ library("tidyverse")
 library("sf")
 library("googlePolylines")
 library("ggmap")
-source("secrets.R")
-
-# strava API key
-app_name <- "athlete-dashboard"
-app_client_id <- "136172"
-app_secret <- APP_SECRET
 
 # create strava token
 my_token <-
   httr::config(token = strava_oauth(
-    app_name,
-    app_client_id,
-    app_secret,
+    app_name = APP_NAME,
+    app_client_id = APP_CLIENT_ID,
+    app_secret = APP_SECRET,
     app_scope = "read_all,activity:read_all"))
 
 # download strava data + make tidy
