@@ -19,6 +19,15 @@ jobs:
             any::googlePolylines
             any::ggmap
 
+      - name: Create Renviron
+        run: |
+          touch .Renviron
+          echo APP_SECRET=${{ secrets.APP_SECRET }} >> .env
+          echo APP_CLIENT_ID=${{ secrets.APP_CLIENT_ID }} >> .env
+          echo APP_NAME=${{ secrets.APP_NAME }} >> .env
+          echo GGMAP_STADIAMAPS_API_KEY=${{ secrets.GGMAP_STADIAMAPS_API_KEY }} >> .env
+          cat .env
+          
       - name: Check out repository
         uses: actions/checkout@v3
 
