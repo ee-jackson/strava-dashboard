@@ -1,11 +1,13 @@
+#!/usr/bin/env Rscript
+
 library("rStrava")
 library("tidyverse")
-library("googlePolylines")
 library("sf")
-source("secrets.R")
+library("googlePolylines")
 library("ggmap")
+source("secrets.R")
 
-# Strava key
+# strava API key
 app_name <- "athlete-dashboard"
 app_client_id <- "136172"
 app_secret <- APP_SECRET
@@ -16,7 +18,7 @@ my_token <-
     app_name,
     app_client_id,
     app_secret,
-    app_scope = 'read_all,activity:read_all'))
+    app_scope = "read_all,activity:read_all"))
 
 # download strava data + make tidy
 my_acts <-
@@ -47,15 +49,15 @@ my_acts <-
   filter(manual == "FALSE" & type == "Run") %>%
   dplyr::select(any_of(desired_columns))
 
-# transformations ####
+# transformations
 my_acts <-
   my_acts %>%
   mutate(
     activity_no = seq(1,n(), 1),
     elapsed_time = elapsed_time/60/60,
     moving_time = moving_time/60/60,
-    date = gsub("T.*$", '', start_date) %>%
-      as.POSIXct(., format = '%Y-%m-%d'),
+    date = gsub("T.*$", "", start_date) %>%
+      as.POSIXct(., format = "%Y-%m-%d"),
     EUdate = format(date, '%d/%m/%Y'),
     month = format(date, "%m"),
     day = format(date, "%d"),
@@ -68,11 +70,13 @@ coords_all <-
   unnest(coords)
 
 
-# map ---------------------------------------------------------------------
+# oxford map --------------------------------------------------------------
+
+register_stadiamaps(GGMAP_STADIAMAPS_API_KEY, write = FALSE)
 
 coords_all %>%
-  st_as_sf(coords = c('lon', 'lat')) %>%
-  st_set_crs(
+  sf::st_as_sf(coords = c("lon", "lat")) %>%
+  sf::st_set_crs(
     "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"
   ) -> gg_data
 
@@ -109,6 +113,7 @@ ggsave("oxford_route_map.png",
        dpi = 300,
        units = "cm")
 
+
 # facet maps --------------------------------------------------------------
 
 facet_map <-
@@ -132,8 +137,8 @@ ggsave("facet_map.png",
        dpi = 300,
        units = "cm")
 
-# heatmap -----------------------------------------------------------------
 
+# heatmap -----------------------------------------------------------------
 
 unit_per_date <-
   my_acts %>%
@@ -199,9 +204,10 @@ calendar_heatmap <-
 ggsave("calendar_heatmap.png",
        calendar_heatmap,
        width = 20,
-       height = 30,
+       height = 25,
        dpi = 300,
        units = "cm")
 
+#inspo:
 #https://marcusvolz.com/strava/
 #https://github.com/marcusvolz/strava/blob/master/R/plot_calendar.R
