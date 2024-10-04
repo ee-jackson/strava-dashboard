@@ -19,6 +19,9 @@ jobs:
             any::googlePolylines
             any::ggmap
 
+      - name: Check out repository
+        uses: actions/checkout@v3
+
       - name: Create secrets.R
         run: |
           touch secrets.R
@@ -26,9 +29,6 @@ jobs:
           echo APP_CLIENT_ID=${{ secrets.APP_CLIENT_ID }} >> secrets.R
           echo APP_NAME=${{ secrets.APP_NAME }} >> secrets.R
           echo GGMAP_STADIAMAPS_API_KEY=${{ secrets.GGMAP_STADIAMAPS_API_KEY }} >> secrets.R
-
-      - name: Check out repository
-        uses: actions/checkout@v3
 
       - name: Build dash
         run: Rscript -e 'source("build-dash.R")'
