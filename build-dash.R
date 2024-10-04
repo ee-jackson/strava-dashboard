@@ -5,6 +5,7 @@ library("tidyverse")
 library("sf")
 library("googlePolylines")
 library("ggmap")
+source("secrets.R")
 
 # create strava token
 my_token <-

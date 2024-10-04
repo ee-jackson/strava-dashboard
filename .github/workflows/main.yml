@@ -13,26 +13,29 @@ jobs:
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           packages: |
-            any::tidyverse 
+            any::tidyverse
             any::rStrava
             any::sf
             any::googlePolylines
             any::ggmap
 
-      - name: Create Renviron
+      - name: Create secrets.R
         run: |
-          touch .Renviron
-          echo APP_SECRET=${{ secrets.APP_SECRET }} >> .Renviron
-          echo APP_CLIENT_ID=${{ secrets.APP_CLIENT_ID }} >> .Renviron
-          echo APP_NAME=${{ secrets.APP_NAME }} >> .Renviron
-          echo GGMAP_STADIAMAPS_API_KEY=${{ secrets.GGMAP_STADIAMAPS_API_KEY }} >> .Renviron
-          cat .Renviron
-          
+          touch secrets.R
+          echo APP_SECRET=${{ secrets.APP_SECRET }} >> secrets.R
+          echo APP_CLIENT_ID=${{ secrets.APP_CLIENT_ID }} >> secrets.R
+          echo APP_NAME=${{ secrets.APP_NAME }} >> secrets.R
+          echo GGMAP_STADIAMAPS_API_KEY=${{ secrets.GGMAP_STADIAMAPS_API_KEY }} >> secrets.R
+
       - name: Check out repository
         uses: actions/checkout@v3
 
       - name: Build dash
         run: Rscript -e 'source("build-dash.R")'
+
+      - name: Remove secrets.R
+        run: |
+          rm secrets.R
 
       - name: Commit results
         run: |
