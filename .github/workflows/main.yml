@@ -30,10 +30,6 @@ jobs:
       - name: Build dash
         run: Rscript -e 'source("build-dash.R")'
 
-      - name: Remove secrets.R
-        run: |
-          rm secrets.R
-
       - name: Commit results
         run: |
           git config --local user.email "actions@github.com"
