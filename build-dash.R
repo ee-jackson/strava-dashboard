@@ -6,12 +6,14 @@ library("sf")
 library("googlePolylines")
 library("ggmap")
 
+source("secrets.R")
+
 # create strava token
 my_token <-
   httr::config(token = strava_oauth(
-    app_name = Sys.getenv("APP_NAME"),
-    app_client_id = Sys.getenv("APP_CLIENT_ID"),
-    app_secret = Sys.getenv("APP_SECRET"),
+    app_name = APP_NAME,
+    app_client_id = APP_CLIENT_ID,
+    app_secret = APP_SECRET,
     app_scope = "read_all,activity:read_all"))
 
 # download strava data + make tidy
