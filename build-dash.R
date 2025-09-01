@@ -117,7 +117,8 @@ facet_map <-
   ggplot() +
   ggplot2::geom_path(aes(lon, lat, group = upload_id),
                      linewidth = 0.35,
-                     lineend = "round") +
+                     lineend = "round",
+                     colour = "darkorange2") +
   ggplot2::facet_wrap(~reorder(upload_id, date), scales = "free") +
   ggplot2::theme_void() +
   ggplot2::theme(panel.spacing = ggplot2::unit(0, "lines"),
