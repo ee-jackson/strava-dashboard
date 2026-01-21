@@ -155,7 +155,7 @@ calendar_heatmap <-
   unit_per_date %>%
   mutate(
     week = week(date),
-    wday = wday(date)
+    wday = wday(date, week_start = 1, label = TRUE)
   ) %>%
   ggplot(
     aes(
@@ -180,12 +180,6 @@ calendar_heatmap <-
     labels = month.abb,
     expand = c(0, 0)
   ) +
-  scale_y_continuous(
-    trans = "reverse",
-    breaks = c(1:7),
-    labels = c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
-    expand = c(0, 0)
-  ) +
   theme(line = element_blank(),
         rect = element_blank(),
         axis.ticks = element_blank(),
@@ -195,7 +189,9 @@ calendar_heatmap <-
         legend.box = NULL,
         legend.key.size = unit(1.2, "lines"),
         legend.position = "right",
-        legend.text = element_text(size = rel(0.8))
+        legend.text = element_text(size = rel(0.8)),
+        text = element_text(colour = "grey30"),
+        strip.text = element_text(colour = "grey30")
   )
 
 ggsave("calendar_heatmap.png",
